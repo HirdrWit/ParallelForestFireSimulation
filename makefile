@@ -1,7 +1,7 @@
 CC=mpicc
 LDC=mpicc
-LD_FLAGS = -std=c11  -fopenmp
-FLAGS= -std=c11  -fopenmp
+LD_FLAGS = -std=c11 -lm -fopenmp
+FLAGS= -std=c11 -lm -fopenmp
 PROGC = main.cx
 RM = /bin/rm
 OBJSC = main.o
