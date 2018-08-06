@@ -1,5 +1,5 @@
-CC=mpicc
-LDC=mpicc
+CC=tau_cc.sh
+LDC=tau_cc.sh
 LD_FLAGS = -std=c11 -lm -fopenmp
 FLAGS= -std=c11 -lm -fopenmp
 PROGC = main.cx

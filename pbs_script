@@ -8,5 +8,5 @@
 
 #cat $PBS_NODEFILE
 cd ~/Final
-
+export TAU_MAKEFILE=/opt/sw/tau/x86_64/lib/Makefile.tau-mpi-pdt
 mpiexec -np 1 --map-by ppr:1:node --hostfile $PBS_NODEFILE ./main.cx
