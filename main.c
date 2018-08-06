@@ -50,12 +50,12 @@ void printmat( double** mat, int n){
             setlocale(LC_ALL, "");
             int Num = mat[i][j];
             wchar_t ch;
-            if(Num == -2) ch = 0x26F0;                  //Mountain ⛰ 
-            if(Num == 0) ch = 0x1F33F;                  //Grass 🌿
-            if(Num == -3) ch = 0x1F30A;                 //Water 🌊
-            if(Num == -1) ch = 0x1F332;                 //Tree 🌲
-            if(Num >0 && Num<=3) ch = 0x23F9;           //Ash  ⏹ /* When fire becomes ash, Num is decreased, prints fire and ash in range values */   
-            if(Num>3 && Num<=8) ch = 0x1F525;           //Fire 🔥                                          
+            if(Num == -2) ch = 0x26F0;                  //Mountain â›° 
+            if(Num == 0) ch = 0x1F33F;                  //Grass ðŸŒ¿
+            if(Num == -3) ch = 0x1F30A;                 //Water ðŸŒŠ
+            if(Num == -1) ch = 0x1F332;                 //Tree ðŸŒ²
+            if(Num >0 && Num<=3) ch = 0x23F9;           //Ash  â¹ /* When fire becomes ash, Num is decreased, prints fire and ash in range values */   
+            if(Num>3 && Num<=8) ch = 0x1F525;           //Fire ðŸ”¥                                          
             if(Num == -2)                               /* Prints different spacing to ensure propper alignment */                     
              printf("%lc  ", ch);
             else if(Num >0 && Num<=3)
@@ -114,16 +114,21 @@ void run (double** mat, int n){
     }
 
     int game_count = 0;                                                                    //Game count 0 - 15 iterations
-    int game_iteration = 15;
+    int game_iteration = 200;
     int windX = getWind();                                                                 //Where is wind coming from (x and y)
     int windY = getWind();
-
+    double start = omp_get_wtime();
     while(game_count < game_iteration)
     {
-        double start = omp_get_wtime();
-		#pragma omp parallel
+       // double start = omp_get_wtime();
+		#pragma omp parallel shared(buffer, mat, game_count, game_iteration, windX, windY)
 		{
-		printf("Threads: %d\n",omp_get_num_threads());
+		#pragma omp single 
+        {if(game_count == 0){
+            int x = omp_get_num_threads();
+            printf("Number of Threads: %d\n", x);
+	}   
+     }
 		#pragma omp for schedule(dynamic)
         for(int i = 1; i < n-1; i++){                                                       //Looks at matrix values (Y axis)
             for (int j = 1; j<n-1;j++){                                                     //Looks at matrix values (X axis)
@@ -166,8 +171,8 @@ void run (double** mat, int n){
             }
         }
         
-        printf("Count: %d\n",game_count);
-        printmat(mat,n);
+       // printf("Count: %d\n",game_count);
+       // printmat(mat,n);
     } 
 	double end = omp_get_wtime();
 	printf("Time: %f\n",end-start);
@@ -175,7 +180,7 @@ void run (double** mat, int n){
 
 int main(void)
 {
-    int n = 25;                                     //Matrix size
+    int n = 2000;                                     //Matrix size
     
     double ** mat = allocmat(n);                    //Allocates matrix by size*size
     mat = assignmat(mat,n);                         //Randomly assigns matrix values
@@ -191,3 +196,4 @@ double randomNum(int min, int max){
     int N=max;
     return (N-M)*(rand()/(double)RAND_MAX)+M;
 }
+
