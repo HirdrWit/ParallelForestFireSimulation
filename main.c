@@ -4,6 +4,7 @@
 #include "math.h"
 #include <locale.h>
 #include <wchar.h>
+#include <omp.h>
 
 double randomNum(int min, int max);                                    //returns a random number from min to max
 double **allocmat(int n);                                              //allocates our forest matrix of size n

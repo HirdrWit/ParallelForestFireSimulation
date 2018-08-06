@@ -2,9 +2,9 @@ FCC = gcc
 LDC = gcc
 LD_FLAGS = -std=c11 -fopenmp
 FLAGS = -std=c11 -fopenmp
-PROG = mvp-student.cx
+PROG = main.cx
 RM = /bin/rm
-OBJS = mvp-student.o
+OBJS = main.o
 
 #all rule
 all: $(PROG)
