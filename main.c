@@ -156,8 +156,7 @@ void run (double** mat, int n){
             }
         }
 		}
-		double end = omp_get_wtime();
-		printf("Time: %f\n",end-start);
+		
         game_count++;
 
         for(int i = 0; i < n; i++){                 //Updates mat to the values of buffer
@@ -168,7 +167,9 @@ void run (double** mat, int n){
         
         printf("Count: %d\n",game_count);
         printmat(mat,n);
-        } 
+    } 
+	double end = omp_get_wtime();
+	printf("Time: %f\n",end-start);
 }
 
 int main(void)
