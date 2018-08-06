@@ -36,7 +36,7 @@ int main(int argc, char **argv)
     
     run(mat, n, rank, numranks);                        //Runs sim (Iteration count is in this method)
 
-	MPI_Finalize();
+    MPI_Finalize();
 }
 
 /*** runs simulation ***/
@@ -55,27 +55,26 @@ void run (double** mat, int n, int rank, int numranks){
     int game_count = 0;                                                                    //Game count 0 - 15 iterations
     int game_iteration = 15;
     int windX, windY;                                                                      //Where is wind coming from (x and y)
+    /*
+    * Every rank should have the same wind direction. Wind direction also changes every iteration.
+    */
+    if (rank == 0) {
+        windX = getWind();
+        windY = getWind();
+    }
+    
+    MPI_Bcast(&windX, 1, MPI_INT, 0, MPI_COMM_WORLD);
+    MPI_Bcast(&windY, 1, MPI_INT, 0, MPI_COMM_WORLD);
     
     while(game_count < game_iteration)
-    {
-		/*
-		* Every rank should have the same wind direction. Wind direction also changes every iteration.
-		*/
-		if (rank == 0) {
-			windX = getWind();
-			windY = getWind();
-		}
-		
-		MPI_Bcast(&windX, 1, MPI_INT, 0, MPI_COMM_WORLD);
-		MPI_Bcast(&windY, 1, MPI_INT, 0, MPI_COMM_WORLD);
-		
+    {       
         /*
         * Sets the buffer back to 0 so that any values in the buffer will be due to only the calculations,
         * which, in turn, allows the buffer to be Allreduced into one matrix.
         */
         resetBuffer(buffer, n); 
-		
-        for(int i = myStart; i < myEnd; i++){                                                       //Looks at matrix values (Y axis)
+        
+        for(int i = myStart; i < myEnd; i++){                                                 //Looks at matrix values (Y axis)
             for (int j = 1; j < n-1;j++){                                                     //Looks at matrix values (X axis)
                 double count = 0;
                 double myVal = mat[i][j];                                                   //Stores current position value
