@@ -7,6 +7,6 @@
 #PBS -V
 
 #cat $PBS_NODEFILE
-cd ~/Final
-
-mpiexec -np 1 --map-by ppr:1:node --hostfile $PBS_NODEFILE ./main.cx
+cd ~/final
+export OMP_NUM_THREADS=12
+./main.cx

@@ -1,22 +1,20 @@
-CC=mpicc
-LDC=mpicc
-LD_FLAGS = -std=c11  -fopenmp
-FLAGS= -std=c11  -fopenmp
-PROGC = main.cx
+FCC = gcc
+LDC = gcc
+LD_FLAGS = -std=c11 -fopenmp
+FLAGS = -std=c11 -fopenmp
+PROG = mvp-student.cx
 RM = /bin/rm
-OBJSC = main.o
+OBJS = mvp-student.o
 
 #all rule
-all: $(PROGC) $(PROGF)
+all: $(PROG)
 
-$(PROGC): $(OBJSC)
-	$(LDC) $^ $(LD_FLAGS) -o $@
+$(PROG): $(OBJS)
+    $(LDC) $(LD_FLAGS) $(OBJS) -o $(PROG)
 
-%C.o: %.c*
-	$(CC) $(FLAGS) -c $^ -o $@
-
-
+%.o: %.c
+    $(FCC) $(FLAGS) -c $<
 
 #clean rule
 clean:
-	$(RM) -rf *.o $(PROGF) $(PROGC) *.mod forest_fire.*
+    $(RM) -rf *.o $(PROG) *.mod forest_fire.*

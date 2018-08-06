@@ -119,7 +119,10 @@ void run (double** mat, int n){
 
     while(game_count < game_iteration)
     {
-        
+        double start = omp_get_wtime();
+		#pragma omp parallel
+		{
+		#pragma omp for schedule(dynamic)
         for(int i = 1; i < n-1; i++){                                                       //Looks at matrix values (Y axis)
             for (int j = 1; j<n-1;j++){                                                     //Looks at matrix values (X axis)
                 double count = 0;
@@ -151,7 +154,9 @@ void run (double** mat, int n){
 
             }
         }
-
+		}
+		double end = omp_get_wtime();
+		printf("Time: %f\n",end-start);
         game_count++;
 
         for(int i = 0; i < n; i++){                 //Updates mat to the values of buffer
