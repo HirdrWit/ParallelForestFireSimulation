@@ -123,6 +123,7 @@ void run (double** mat, int n){
         double start = omp_get_wtime();
 		#pragma omp parallel
 		{
+		printf("Threads: %d\n",omp_get_num_threads());
 		#pragma omp for schedule(dynamic)
         for(int i = 1; i < n-1; i++){                                                       //Looks at matrix values (Y axis)
             for (int j = 1; j<n-1;j++){                                                     //Looks at matrix values (X axis)
